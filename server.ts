@@ -1,5 +1,7 @@
 import express from 'express';
 import { createServer as createViteServer } from 'vite';
+import react from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite';
 import { ai } from './src/lib/gemini.ts';
 import { db } from './src/db/index.ts';
 import { learningPaths } from './src/db/schema.ts';
@@ -9,11 +11,12 @@ async function createServer() {
   
   const vite = await createViteServer({
     server: { middlewareMode: true },
-    appType: 'spa'
+    appType: 'spa',
+    plugins: [react(), tailwindcss()],
   });
   
-  app.use(vite.middlewares);
   app.use(express.json());
+  app.use(vite.middlewares);
   
   app.post('/api/ai', async (req, res) => {
     const { prompt } = req.body;
@@ -36,6 +39,17 @@ async function createServer() {
     } catch (error) {
       console.error('Paths Error:', error);
       res.status(500).json({ error: 'Failed to fetch paths' });
+    }
+  });
+
+  app.use('*', async (req, res, next) => {
+    try {
+      const url = req.originalUrl;
+      const template = await vite.transformIndexHtml(url, (await import('fs')).readFileSync('./index.html', 'utf-8'));
+      res.status(200).set({ 'Content-Type': 'text/html' }).end(template);
+    } catch (e) {
+      vite.ssrFixStacktrace(e as Error);
+      next(e);
     }
   });
 
