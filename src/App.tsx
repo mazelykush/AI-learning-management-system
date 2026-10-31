@@ -3,6 +3,7 @@ import Layout from './components/layout/Layout.tsx';
 import Dashboard from './pages/Dashboard.tsx';
 import Playground from './pages/Playground.tsx';
 import Academy from './pages/Academy.tsx';
+import Onboarding from './pages/Onboarding.tsx';
 
 const router = createBrowserRouter([
   {
@@ -13,7 +14,7 @@ const router = createBrowserRouter([
       { path: '/dashboard', element: <Dashboard /> },
       { path: '/playground', element: <Playground /> },
       { path: '/academy', element: <Academy /> },
-
+      { path: '/onboarding', element: <Onboarding /> },
     ],
   },
 ]);

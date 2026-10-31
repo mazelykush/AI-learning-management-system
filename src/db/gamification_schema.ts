@@ -24,3 +24,18 @@ export const userAchievements = pgTable('user_achievements', {
   achievementName: text('achievement_name').notNull(),
   unlockedAt: timestamp('unlocked_at').defaultNow(),
 });
+
+export const userStreaks = pgTable('user_streaks', {
+  id: serial('id').primaryKey(),
+  userId: integer('user_id').references(() => users.id).notNull().unique(),
+  currentStreak: integer('current_streak').default(0),
+  longestStreak: integer('longest_streak').default(0),
+  lastActivityDate: timestamp('last_activity_date'),
+});
+
+export const leaderboard = pgTable('leaderboard', {
+  id: serial('id').primaryKey(),
+  userId: integer('user_id').references(() => users.id).notNull().unique(),
+  totalXp: integer('total_xp').default(0),
+  updatedAt: timestamp('updated_at').defaultNow(),
+});
