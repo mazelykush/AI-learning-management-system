@@ -1,6 +1,8 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function Dashboard() {
+  const navigate = useNavigate();
   return (
     <div className="space-y-6">
       <header>
@@ -26,7 +28,7 @@ export default function Dashboard() {
       <div className="bg-slate-900 border border-slate-800 p-6 rounded-xl">
         <h2 className="text-lg font-semibold text-white">Next Lesson</h2>
         <p className="text-slate-400 mt-2">Level 2: Prompt Apprentice - Module 1: What is Prompt Engineering?</p>
-        <button className="mt-4 px-4 py-2 text-sm font-medium text-slate-900 bg-cyan-400 rounded-lg hover:bg-cyan-300 transition-colors">
+        <button onClick={() => navigate('/academy')} className="mt-4 px-4 py-2 text-sm font-medium text-slate-900 bg-cyan-400 rounded-lg hover:bg-cyan-300 transition-colors">
           Continue Learning
         </button>
       </div>

@@ -64,12 +64,21 @@ const LEVELS = [
 ];
 
 export default function Academy() {
-  const [open, setOpen] = useState<string | null>(null);
+  const [open, setOpen] = useState<string | null>('1-1');
+  const allLessons = LEVELS.flatMap((l) => l.lessons.map((ls) => ls.id));
+  const goNext = () => {
+    const idx = allLessons.indexOf(open ?? '');
+    const next = allLessons[idx + 1] ?? allLessons[0];
+    setOpen(next);
+  };
   return (
     <div className="space-y-6">
       <header>
         <h1 className="text-3xl font-bold tracking-tight text-white">Learning Academy</h1>
         <p className="text-slate-400 mt-2">6 levels from basics to mastery (offline-ready). Each lesson shows good vs bad prompts.</p>
+        <button onClick={goNext} className="mt-3 px-4 py-2 text-sm font-medium text-slate-900 bg-cyan-400 rounded-lg hover:bg-cyan-300 transition-colors">
+          Continue to Next Lesson
+        </button>
       </header>
       {LEVELS.map((level) => (
         <div key={level.id} className="bg-slate-900 border border-slate-800 p-6 rounded-xl">
